@@ -1,5 +1,4 @@
 import 'package:finalexam_ecom_database/model/Product.dart';
-import 'package:finalexam_ecom_database/model/ProductData.dart';
 import 'package:flutter/material.dart';
 
 import '../model/CartProduct.dart';
@@ -17,7 +16,12 @@ class _homepageState extends State<homepage> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          leading: IconButton(onPressed: (){},icon:Icon(Icons.shopping_bag),),
+          leading: IconButton(
+            onPressed: () {
+              Navigator.of(context).pushNamed('cartpage');
+            },
+            icon: Icon(Icons.shopping_bag),
+          ),
           title: Text("Products"),
           centerTitle: true,
         ),
@@ -31,8 +35,8 @@ class _homepageState extends State<homepage> {
                 child: Column(
                   children: [
                     Container(
-                      height: 100,
-                      width: 100,
+                      height: 50,
+                      width: 50,
                       child: Image(image: AssetImage(MyProduct[i]['images'])),
                     ),
                     SizedBox(
@@ -41,7 +45,7 @@ class _homepageState extends State<homepage> {
                     Text(
                       MyProduct[i]['title'],
                       style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 5),
                     ),
                     SizedBox(
                       height: 8,
@@ -51,18 +55,22 @@ class _homepageState extends State<homepage> {
                       children: [
                         Text(
                           'Price : ${MyProduct[i]['price']}',
-                          style: TextStyle(
-                            fontSize: 20
-                          ),
+                          style: TextStyle(fontSize: 20),
                         ),
                         SizedBox(
                           width: 8,
                         ),
                         IconButton(
                             onPressed: () {
-                              CartProduct.add(ProductData(name:MyProduct[i]['title'] , price: MyProduct[i]['price'], image:MyProduct[i]['images'] ) as ProductData);
-                              Navigator.of(context).pushNamed('cartpage',arguments: MyProduct[i]);
-                            }, icon: Icon(Icons.shopping_cart))
+                              CartProduct.add(MyProduct[i]);
+                              setState(() {
+                                MyProduct[i]['i']++;
+                                MyProduct[i]['total'] =
+                                    MyProduct[i]['price'] * MyProduct[i]['i'];
+                              });
+                              print(CartProduct);
+                            },
+                            icon: Icon(Icons.shopping_cart))
                       ],
                     ),
                     SizedBox(
@@ -76,4 +84,3 @@ class _homepageState extends State<homepage> {
     );
   }
 }
-

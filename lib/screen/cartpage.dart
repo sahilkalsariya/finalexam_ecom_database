@@ -12,17 +12,65 @@ class _CartpageState extends State<Cartpage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView.builder(itemCount: CartProduct.length,itemBuilder: (context,i) {
-        return Column(
-          children: [
-            ListTile(
-              leading:Image.asset(CartProduct[i].image as String),
-              title:Text("${CartProduct[i].name}") ,
-              subtitle:Text("${CartProduct[i].price}"),
-            )
-          ],
-        );
-      }),
+      body: ListView.builder(
+          itemCount: CartProduct.length,
+          itemBuilder: (context, i) {
+            return Card(
+                child: ExpansionTile(
+              title: Text(CartProduct[i]['title']),
+              subtitle: Text("${CartProduct[i]['total']}"),
+              leading: Container(
+                child: Image.asset(CartProduct[i]['images']),
+              ),
+              children: [
+                Container(
+                    height: 35,
+                    width: 105,
+                    child: Row(
+                      children: [
+                        Expanded(
+                            child: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              if (CartProduct[i]['i'] > 0) {
+                                CartProduct[i]['i']--;
+                                CartProduct[i]['total'] -=
+                                    CartProduct[i]['price'];
+                              }
+                              if (CartProduct[i]['i'] == 0) {
+                                CartProduct.remove(CartProduct[i]);
+                              }
+                            });
+                          },
+                          icon: Icon(
+                            Icons.remove_outlined,
+                            size: 15,
+                          ),
+                        )),
+                        Expanded(
+                            child: Container(
+                          child: Text("${CartProduct[i]['i']}"),
+                          alignment: Alignment.center,
+                        )),
+                        Expanded(
+                            child: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              CartProduct[i]['i']++;
+                              CartProduct[i]['total'] =
+                                  CartProduct[i]['price'] * CartProduct[i]['i'];
+                            });
+                          },
+                          icon: Icon(
+                            Icons.add,
+                            size: 15,
+                          ),
+                        ))
+                      ],
+                    ))
+              ],
+            ));
+          }),
     );
   }
 }

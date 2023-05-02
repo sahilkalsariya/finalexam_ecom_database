@@ -1,3 +1,1 @@
-import 'ProductData.dart';
-
-List<ProductData> CartProduct = [];
+List<Map<String, dynamic>> CartProduct = [];

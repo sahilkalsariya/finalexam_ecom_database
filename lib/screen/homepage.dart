@@ -68,6 +68,9 @@ class _homepageState extends State<homepage> {
                                 MyProduct[i]['total'] =
                                     MyProduct[i]['price'] * MyProduct[i]['i'];
                               });
+
+
+
                               print(CartProduct);
                             },
                             icon: Icon(Icons.shopping_cart))

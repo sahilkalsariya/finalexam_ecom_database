@@ -1,7 +1,7 @@
-import 'package:finalexam_ecom_database/model/ProductData.dart';
+import 'package:finalexam_ecom_database/model/CartProduct.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-
+//
 class DBHelper{
   DBHelper._();
   DBHelper dbHelper = DBHelper._();
@@ -11,7 +11,6 @@ class DBHelper{
   final String ProId = "Id";
   final String ProName = "Name";
   final String ProPrice = "Price";
-  final String ProImage = "Image";
 
   Database? database;
 
@@ -22,7 +21,7 @@ class DBHelper{
     database = await openDatabase(path, version: 1,
         onCreate: (Database database, int version) async {
           await database.execute(
-              "CREATE TABLE IF NOT EXISTS $tableName($ProId INTEGER PRIMARY KEY AUTOINCREMENT, $ProName TEXT, $ProPrice INTEGER, $ProImage BLOB);");
+              "CREATE TABLE IF NOT EXISTS $tableName($ProId INTEGER PRIMARY KEY AUTOINCREMENT, $ProName TEXT, $ProPrice INTEGER);");
         });
   }
 
@@ -30,6 +29,9 @@ class DBHelper{
   Future<void> ProductAdd() async {
     await initDB();
 
+    String query =
+        "INSERT INTO $tableName($ProName,$ProPrice) VALUES(?, ?);";
   }
 
 }
+

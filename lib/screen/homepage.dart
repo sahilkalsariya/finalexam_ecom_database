@@ -1,3 +1,4 @@
+import 'package:finalexam_ecom_database/helper/ProductDB.dart';
 import 'package:finalexam_ecom_database/model/Product.dart';
 import 'package:flutter/material.dart';
 
@@ -11,6 +12,13 @@ class homepage extends StatefulWidget {
 }
 
 class _homepageState extends State<homepage> {
+  @override
+  void initState() {
+    super.initState();
+
+    DBHelper.dbHelper.initDB();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -65,11 +73,12 @@ class _homepageState extends State<homepage> {
                               CartProduct.add(MyProduct[i]);
                               setState(() {
                                 MyProduct[i]['i']++;
+                                CartProductM c1 =
+                                    CartProductM.from(data: MyProduct[i]);
                                 MyProduct[i]['total'] =
                                     MyProduct[i]['price'] * MyProduct[i]['i'];
+                                DBHelper.dbHelper.ProductAdd(m: c1);
                               });
-
-
 
                               print(CartProduct);
                             },
